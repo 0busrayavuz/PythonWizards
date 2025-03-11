@@ -58,6 +58,5 @@ def main():
         else:
             print("Geçersiz seçim! Lütfen tekrar deneyin.")
 
-
 if __name__ == "__main__":
     main()
