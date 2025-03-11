@@ -12,7 +12,6 @@ def main():
 
     cart = Cart()
 
-    # Örnek ürünler
     products = {
         "Airfryer": Product("Airfryer", 20000, 5),
         "Ütü": Product("Ütü", 15000, 10),
