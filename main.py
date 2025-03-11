@@ -1,61 +1,57 @@
 from customer import Customer
+from product import Product
 from cart import Cart
 from order import Order
-from product import Product
 
+product1 = Product("Ütü", 4000, 10)
+product2 = Product("Airfryer", 3500, 20)
+product3 = Product("Kurutma Makinesi", 21000, 5)
 
-def main():
-    print("-- Kullanıcı Girişi --")
-    name = input("Adınızı giriniz: ")
-    email = input("E-posta adresinizi giriniz: ")
-    customer = Customer(name, email)
+products = [product1, product2, product3]
 
-    cart = Cart()
+name = input("Adınızı girin: ")
+email = input("E-posta adresinizi girin: ")
+customer = Customer(name, email)
 
-    products = {
-        "Airfryer": Product("Airfryer", 20000, 5),
-        "Ütü": Product("Ütü", 15000, 10),
-        "Kurutma Makinesi": Product("Kurutma Makinesi", 500, 20)
-    }
+cart = Cart()
 
-    while True:
-        print("\n-- Alışveriş Sistemi --")
-        print("1. Sepete Ürün Ekle")
-        print("2. Sepetten Ürün Çıkar")
-        print("3. Sepeti Görüntüle")
-        print("4. Siparişi Tamamla")
-        print("5. Çıkış")
+while True:
+    print("\n---- MENÜ ----")
+    print("1. Ürün Ekle")
+    print("2. Ürün Çıkar")
+    print("3. Sepeti Görüntüle")
+    print("4. Sipariş Oluştur")
+    print("5. Çıkış")
 
-        choice = input("Seçiminizi yapınız: ")
-        if choice == "1":
-            product_name = input("Eklemek istediğiniz ürünün adını giriniz: ")
-            if product_name in products:
-                quantity = int(input("Kaç adet eklemek istiyorsunuz?: "))
-                cart.add_product(products[product_name], quantity)
-                print(f"{quantity} adet {product_name} sepete eklendi!")
-            else:
-                print("Bu isimde bir ürün bulunamadı!")
+    choice = input("Bir seçenek girin: ")
 
-        elif choice == "2":
-            product_name = input("Çıkarmak istediğiniz ürünün adını giriniz: ")
-            cart.remove_product(product_name)
-            print(f"{product_name} sepetten çıkarıldı!")
+    if choice == '1':
+        print("\nMevcut Ürünler:")
+        for idx, prod in enumerate(products, 1):
+            print(f"{idx}. {prod}")
+        product_choice = int(input("\nEklemek istediğiniz ürünün numarasını girin: "))
+        quantity = int(input(f"{products[product_choice - 1].name} için eklemek istediğiniz miktarı girin: "))
+        cart.add_product(products[product_choice - 1], quantity)
 
-        elif choice == "3":
-            print("\nSepetiniz:")
-            cart.display_cart()
+    elif choice == '2':
+        print("\nSepetinizdeki Ürünler:")
+        for idx, item in enumerate(cart.items.values(), 1):
+            print(f"{idx}. {item['product'].name} - {item['quantity']} adet")
+        remove_choice = int(input("\nÇıkarmak istediğiniz ürünün numarasını girin: "))
+        product_name = list(cart.items.keys())[remove_choice - 1]
+        cart.remove_product(product_name)
 
-        elif choice == ("4"):
-            order = Order(customer, cart)
-            order.place_order()
-            break
+    elif choice == '3':
+        print("\nSepetiniz:")
+        cart.display_cart()
 
-        elif choice == "5":
-            print("Çıkış yapılıyor...")
-            break
+    elif choice == '4':
+        order = Order(customer, cart)
+        order.place_order()
+        break
 
-        else:
-            print("Geçersiz seçim! Lütfen tekrar deneyin.")
-
-if __name__ == "__main__":
-    main()
+    elif choice == '5':
+        print("Çıkılıyor...")
+        break
+    else:
+        print("Geçersiz seçenek! Tekrar deneyin.")
